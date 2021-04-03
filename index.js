@@ -2,9 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const enquirer = require('enquirer');
 const Asana = require('asana');
+const homedir = require('os').homedir();
 
 const CREDENTIALS_FILE = 'credentials';
-const CREDENTIALS_PATH = path.join('~', '.asana', CREDENTIALS_FILE);
+const CREDENTIALS_PATH = path.join(homedir, '.asana-task', CREDENTIALS_FILE);
 const CREDENTIALS_TOKEN = 'ASANA_PERSONAL_TOKEN';
 const KEY_SEPARATOR = '=';
 
@@ -106,4 +107,4 @@ async function main() {
 	}
 }
 
-export default main;
+module.exports = main;
