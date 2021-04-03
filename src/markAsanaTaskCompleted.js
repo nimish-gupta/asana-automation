@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const enquirer = require('enquirer');
 const Asana = require('asana');
 
 const { CREDENTIALS_PATH, CREDENTIALS_TOKEN } = require('./constants');
@@ -8,7 +7,7 @@ const getToken = require('./getToken');
 const fetchAndSaveToken = require('./fetchAndSaveToken');
 const log = require('./log');
 
-async function main() {
+async function main({ taskIds, githubPRLink }) {
 	log('checking credentials path exist');
 
 	const fileExists = fs.existsSync(CREDENTIALS_PATH);
@@ -40,30 +39,17 @@ async function main() {
 
 	const asanaClient = Asana.Client.create().useAccessToken(asanaToken);
 
-	const { taskId, githubPRLink } = await enquirer.prompt([
-		{
-			type: 'input',
-			name: 'taskId',
-			message: 'Enter the taskId for the asana task',
-		},
-		{
-			type: 'input',
-			name: 'githubPRLink',
-			message: 'Enter the PR link completing the task',
-		},
-	]);
-
-	log('Successfully got the taskId from the user', taskId);
-
-	try {
-		log('Commenting on the task');
-		await asanaClient.tasks.addComment(taskId, {
-			text: `Successfully completed this task by PR - ${githubPRLink}.`,
-		});
-		log('Successfully commented on the task');
-		await asanaClient.tasks.update(taskId, { completed: true });
-	} catch (error) {
-		console.log(error.value.errors);
+	for (const taskId of taskIds) {
+		try {
+			log('Commenting on the task', taskId);
+			await asanaClient.tasks.addComment(taskId, {
+				text: `Successfully completed this task by PR - ${githubPRLink}.`,
+			});
+			log('Successfully commented on the task');
+			await asanaClient.tasks.update(taskId, { completed: true });
+		} catch (error) {
+			console.log(error.value.errors);
+		}
 	}
 }
 
