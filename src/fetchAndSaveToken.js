@@ -13,7 +13,7 @@ const fetchAndSaveToken = async (token, label) => {
 	});
 
 	log('Got the personal token from the user', userResponse);
-	fs.appendFileSync(CREDENTIALS_PATH, `${token}=${userResponse[token]}`);
+	fs.appendFileSync(CREDENTIALS_PATH, `${token}=${userResponse[token]}\n`);
 	log('Successfully written the token to the file');
 	return userResponse[token];
 };
