@@ -1,6 +1,6 @@
 {
   "name": "asana-task",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "This will add a comment on the task and will mark it complete",
   "main": "index.js",
   "scripts": {
