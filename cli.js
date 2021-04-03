@@ -7,12 +7,13 @@ const promptTaskIdsAndGithubPR = require('./src/promptTaskIdsAndGithubPR');
 const argv = require('minimist')(process.argv.slice(2));
 
 async function cli() {
+	let taskIds, githubPRLink;
 	if (argv.githubPR) {
-		await getAsanaTaskFromGithubPr(argv.githubPR);
+		({ taskIds, githubPRLink } = await getAsanaTaskFromGithubPr(argv.githubPR));
 	} else {
-		const { taskId, githubPRLink } = await promptTaskIdsAndGithubPR();
-		await markAsanaTaskCompleted({ taskIds: [taskId], githubPRLink });
+		({ taskIds, githubPRLink } = await promptTaskIdsAndGithubPR());
 	}
+	await markAsanaTaskCompleted({ taskIds, githubPRLink });
 }
 
 cli();

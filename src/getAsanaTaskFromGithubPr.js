@@ -6,12 +6,10 @@ const getUrls = require('get-urls');
 const fetchAndSaveToken = require('./fetchAndSaveToken');
 const getToken = require('./getToken');
 const log = require('./log');
+const { getTaskIdsFromUrls } = require('./utils/asana');
 
 const GITHUB_TOKEN = 'GITHUB_PERSONAL_TOKEN';
 const ASANA_DOMAIN = 'app.asana.com';
-const URL_SEPARATOR = '/';
-
-const isLinkForFullScreen = (asanaLinkParts) => asanaLinkParts[0] === 'f';
 
 async function main(githubPR) {
 	let githubToken = getToken(GITHUB_TOKEN);
@@ -40,7 +38,7 @@ async function main(githubPR) {
 	log('Successfully got the pr link', prLink);
 
 	const parsedUrl = ParseGithubUrl(prLink);
-	log('Successfully parsed the github url', parsedUrl);
+	log('Successfully parsed the github url');
 
 	const pullRequest = await octokit.pulls.get({
 		owner: parsedUrl.owner,
@@ -54,15 +52,14 @@ async function main(githubPR) {
 
 	const asanaLinks = urls.filter((url) => url.includes(ASANA_DOMAIN));
 	if (asanaLinks.length === 0) {
-		return 'No asana link found in the PR';
+		return { taskIds: [], githubPRLink: prLink };
 	}
 	log('Successfully filtered asana links', asanaLinks);
 
-	const asanaTaskIds = asanaLinks.map((link) => {
-		const linkParts = link.split(URL_SEPARATOR).reverse();
-		return linkParts[isLinkForFullScreen(linkParts) ? 1 : 0];
-	});
+	const asanaTaskIds = getTaskIdsFromUrls(asanaLinks);
 	log('Successfully fetched the task ids', asanaTaskIds);
+
+	return { taskIds: asanaTaskIds, githubPRLink: prLink };
 }
 
 module.exports = main;

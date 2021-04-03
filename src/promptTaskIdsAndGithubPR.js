@@ -1,13 +1,16 @@
 const enquirer = require('enquirer');
 
 const log = require('./log');
+const { getTaskIdsFromUrls } = require('./utils/asana');
+
+const URL_SEPARATOR = ',';
 
 const promptTaskIdsAndGithubPR = async () => {
-	const { taskId, githubPRLink } = await enquirer.prompt([
+	const { taskUrlsString, githubPRLink } = await enquirer.prompt([
 		{
 			type: 'input',
-			name: 'taskId',
-			message: 'Enter the taskId for the asana task',
+			name: 'taskUrlsString',
+			message: `Enter the urls (${URL_SEPARATOR} separated) for the asana task`,
 		},
 		{
 			type: 'input',
@@ -16,9 +19,15 @@ const promptTaskIdsAndGithubPR = async () => {
 		},
 	]);
 
-	log('Successfully got the taskId from the user', taskId);
+	const asanaLinks = taskUrlsString
+		.split(URL_SEPARATOR)
+		.map((url) => url.trim());
+
+	const taskIds = getTaskIdsFromUrls(asanaLinks);
+
+	log('Successfully got the taskIds from the user', taskIds);
 	log('Successfully got the github pr link from the user', githubPRLink);
-	return { githubPRLink, taskId };
+	return { githubPRLink, taskIds };
 };
 
 module.exports = promptTaskIdsAndGithubPR;
