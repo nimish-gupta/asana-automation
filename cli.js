@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 
-const main = require('./index');
+const markAsanaTaskCompleted = require('./src/markAsanaTaskCompleted');
+const getAsanaTaskFromGithubPr = require('./src/getAsanaTaskFromGithubPr');
 
-main();
+const argv = require('minimist')(process.argv.slice(2));
+
+if (argv.githubPR) {
+	getAsanaTaskFromGithubPr(argv.githubPR);
+} else {
+	markAsanaTaskCompleted();
+}

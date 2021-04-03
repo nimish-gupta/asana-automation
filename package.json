@@ -13,8 +13,10 @@
   "author": "Nimish Gupta",
   "license": "ISC",
   "dependencies": {
+    "@octokit/rest": "^18.5.2",
     "asana": "^0.18.5",
-    "enquirer": "^2.3.6"
+    "enquirer": "^2.3.6",
+    "minimist": "^1.2.5"
   },
   "bin": {
     "asana-task": "./cli.js"
