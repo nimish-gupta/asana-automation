@@ -1,3 +1,5 @@
+const Asana = require('asana');
+
 const URL_SEPARATOR = '/';
 
 const isLinkForFullScreen = (asanaLinkParts) => asanaLinkParts[0] === 'f';
@@ -11,6 +13,13 @@ const getTaskIdsFromUrls = (asanaLinks) => {
 	return asanaTaskIds;
 };
 
+const getAsanaClient = (asanaToken) => {
+	console.log(asanaToken);
+	const asanaClient = Asana.Client.create().useAccessToken(asanaToken);
+	return asanaClient;
+};
+
 module.exports = {
 	getTaskIdsFromUrls,
+	getAsanaClient,
 };

@@ -1,9 +1,8 @@
-const Asana = require('asana');
-
+const { getAsanaClient } = require('./utils/asana');
 const { debug, error: logError } = require('./log');
 
 async function main({ taskIds, githubPRLink, asanaToken }) {
-	const asanaClient = Asana.Client.create().useAccessToken(asanaToken);
+	const asanaClient = getAsanaClient(asanaToken);
 
 	for (const taskId of taskIds) {
 		try {

@@ -1,18 +1,17 @@
 function debug(...params) {
 	if (process.env.DEBUG) {
 		const logData = params.join(' ');
-		console.log(`[debug]: ${logData}`);
+		console.log(`[debug] ${logData}`);
 	}
 }
 
 function info(...params) {
-	const logData = params.join(' ');
-	console.log(`[info]: ${logData}`);
+	console.log(...params);
 }
 
 function error(...params) {
 	const logData = params.join(' ');
-	console.error(`[error]: ${logData}`);
+	console.error(`[error] ${logData}`);
 }
 
 module.exports = {
