@@ -5,6 +5,8 @@ const getAsanaTaskFromGithubPr = require('./src/getAsanaTaskFromGithubPr');
 const promptTaskIdsAndGithubPR = require('./src/promptTaskIdsAndGithubPR');
 const getAsanaTasksFromTaskIds = require('./src/getAsanaTasksFromTaskIds');
 const checkCredentialsPathExist = require('./src/checkCredentialsPathExist');
+const getAsanaToken = require('./src/getAsanaToken');
+
 const { info } = require('./src/log');
 
 const argv = require('minimist')(process.argv.slice(2));
@@ -23,11 +25,11 @@ async function cli() {
 			`Could not found any task associated with the github pr link - ${githubPRLink}`
 		);
 		taskIds = await getAsanaTasksFromTaskIds();
-		if (taskIds.length === 0) {
+		if (!taskIds || taskIds.length === 0) {
 			process.exit();
 		}
 	} else {
-		await markAsanaTaskCompleted({ taskIds, githubPRLink });
+		await markAsanaTaskCompleted({ taskIds, githubPRLink, asanaToken });
 	}
 }
 

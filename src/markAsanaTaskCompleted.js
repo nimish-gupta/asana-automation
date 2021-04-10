@@ -1,25 +1,8 @@
 const Asana = require('asana');
 
-const { CREDENTIALS_PATH, CREDENTIALS_TOKEN } = require('./constants');
-const getToken = require('./getToken');
-const fetchAndSaveToken = require('./fetchAndSaveToken');
 const { debug, error: logError } = require('./log');
 
-async function main({ taskIds, githubPRLink }) {
-	let asanaToken = getToken(CREDENTIALS_TOKEN);
-
-	if (asanaToken) {
-		debug('Credential token found');
-	} else {
-		debug('Credentials Token not found');
-		asanaToken = await fetchAndSaveToken(CREDENTIALS_TOKEN, 'asana');
-	}
-
-	if (!asanaToken) {
-		throw new Error("Couldn't found the asana token");
-	}
-	debug('Found the token', asanaToken);
-
+async function main({ taskIds, githubPRLink, asanaToken }) {
 	const asanaClient = Asana.Client.create().useAccessToken(asanaToken);
 
 	for (const taskId of taskIds) {

@@ -21,4 +21,4 @@ const checkCredentialsPathExist = () => {
 	}
 };
 
-export default checkCredentialsPathExist;
+module.exports = checkCredentialsPathExist;
