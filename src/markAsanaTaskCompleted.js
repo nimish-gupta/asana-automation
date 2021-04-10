@@ -1,28 +1,11 @@
-const fs = require('fs');
-const path = require('path');
 const Asana = require('asana');
 
 const { CREDENTIALS_PATH, CREDENTIALS_TOKEN } = require('./constants');
 const getToken = require('./getToken');
 const fetchAndSaveToken = require('./fetchAndSaveToken');
-const { debug, error } = require('./log');
+const { debug, error: logError } = require('./log');
 
 async function main({ taskIds, githubPRLink }) {
-	debug('checking credentials path exist');
-
-	const fileExists = fs.existsSync(CREDENTIALS_PATH);
-
-	if (fileExists) {
-		debug('Credentials path exist');
-	} else {
-		debug('creating the default path');
-		const dirPath = path.dirname(CREDENTIALS_PATH);
-		fs.mkdirSync(dirPath, { recursive: true });
-		debug('Successfully created the path', dirPath);
-		fs.writeFileSync(CREDENTIALS_PATH, '');
-		debug('Successfully created file');
-	}
-
 	let asanaToken = getToken(CREDENTIALS_TOKEN);
 
 	if (asanaToken) {
@@ -48,7 +31,7 @@ async function main({ taskIds, githubPRLink }) {
 			debug('Successfully commented on the task');
 			await asanaClient.tasks.update(taskId, { completed: true });
 		} catch (error) {
-			error(error.value.errors);
+			logError(error.value.errors);
 		}
 	}
 }
