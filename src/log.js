@@ -1,7 +1,22 @@
-function log(...params) {
+function debug(...params) {
 	if (process.env.DEBUG) {
-		console.log(...params);
+		const logData = params.join(' ');
+		console.log(`[debug]: ${logData}`);
 	}
 }
 
-module.exports = log;
+function info(...params) {
+	const logData = params.join(' ');
+	console.log(`[info]: ${logData}`);
+}
+
+function error(...params) {
+	const logData = params.join(' ');
+	console.error(`[error]: ${logData}`);
+}
+
+module.exports = {
+	debug,
+	info,
+	error,
+};

@@ -13,6 +13,9 @@ async function cli() {
 	} else {
 		({ taskIds, githubPRLink } = await promptTaskIdsAndGithubPR());
 	}
+	if (taskIds.length === 0) {
+		console.log(taskIds, 'found zero token');
+	}
 	await markAsanaTaskCompleted({ taskIds, githubPRLink });
 }
 

@@ -1,6 +1,6 @@
 const enquirer = require('enquirer');
 
-const log = require('./log');
+const { debug } = require('./log');
 const { getTaskIdsFromUrls } = require('./utils/asana');
 
 const URL_SEPARATOR = ',';
@@ -25,8 +25,8 @@ const promptTaskIdsAndGithubPR = async () => {
 
 	const taskIds = getTaskIdsFromUrls(asanaLinks);
 
-	log('Successfully got the taskIds from the user', taskIds);
-	log('Successfully got the github pr link from the user', githubPRLink);
+	debug('Successfully got the taskIds from the user', taskIds);
+	debug('Successfully got the github pr link from the user', githubPRLink);
 	return { githubPRLink, taskIds };
 };
 
