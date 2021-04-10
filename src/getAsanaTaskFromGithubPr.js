@@ -5,7 +5,7 @@ const getUrls = require('get-urls');
 
 const fetchAndSaveToken = require('./fetchAndSaveToken');
 const getToken = require('./getToken');
-const log = require('./log');
+const { debug } = require('./log');
 const { getTaskIdsFromUrls } = require('./utils/asana');
 
 const GITHUB_TOKEN = 'GITHUB_PERSONAL_TOKEN';
@@ -15,7 +15,7 @@ async function main(githubPR) {
 	let githubToken = getToken(GITHUB_TOKEN);
 
 	if (!githubToken) {
-		log('Github Token not found');
+		debug('Github Token not found');
 		githubToken = await fetchAndSaveToken(GITHUB_TOKEN, 'github');
 	}
 
@@ -35,29 +35,29 @@ async function main(githubPR) {
 					message: 'Please enter the PR link:',
 			  })
 			: { prLink: githubPR };
-	log('Successfully got the pr link', prLink);
+	debug('Successfully got the pr link', prLink);
 
 	const parsedUrl = ParseGithubUrl(prLink);
-	log('Successfully parsed the github url');
+	debug('Successfully parsed the github url');
 
 	const pullRequest = await octokit.pulls.get({
 		owner: parsedUrl.owner,
 		repo: parsedUrl.name,
 		pull_number: parsedUrl.filepath,
 	});
-	log('Successfully fetched the pull request', pullRequest.url);
+	debug('Successfully fetched the pull request', pullRequest.url);
 
 	const urls = Array.from(getUrls(pullRequest.data.body));
-	log('Successfully fetched the urls from pull request', urls);
+	debug('Successfully fetched the urls from pull request', urls);
 
 	const asanaLinks = urls.filter((url) => url.includes(ASANA_DOMAIN));
 	if (asanaLinks.length === 0) {
 		return { taskIds: [], githubPRLink: prLink };
 	}
-	log('Successfully filtered asana links', asanaLinks);
+	debug('Successfully filtered asana links', asanaLinks);
 
 	const asanaTaskIds = getTaskIdsFromUrls(asanaLinks);
-	log('Successfully fetched the task ids', asanaTaskIds);
+	debug('Successfully fetched the task ids', asanaTaskIds);
 
 	return { taskIds: asanaTaskIds, githubPRLink: prLink };
 }
