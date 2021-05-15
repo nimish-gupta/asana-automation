@@ -3,12 +3,10 @@ import ParseGithubUrl from 'parse-github-url';
 import { Octokit } from '@octokit/rest';
 import getUrls from 'get-urls';
 
-import fetchAndSaveToken from './fetchAndSaveToken';
-import getToken from './getToken';
-import { debug, error } from './log';
+import getToken, { TokenType } from './getToken';
+import { debug } from './log';
 import { getTaskIdsFromUrls } from './utils/asana';
 
-const GITHUB_TOKEN = 'GITHUB_PERSONAL_TOKEN';
 const ASANA_DOMAIN = 'app.asana.com';
 
 const parseGithubUrl = (
@@ -36,16 +34,10 @@ const parseGithubUrl = (
 };
 
 async function main(githubPR?: string) {
-	let githubToken = getToken(GITHUB_TOKEN);
-
-	if (!githubToken) {
-		debug('Github Token not found');
-		githubToken = await fetchAndSaveToken(GITHUB_TOKEN, 'github');
-	}
-
-	if (!githubToken) {
-		throw new Error("Couldn't found the github token");
-	}
+	const githubToken = await getToken({
+		type: TokenType.GITHUB_TOKEN,
+		label: 'github ',
+	});
 
 	const octokit = new Octokit({
 		auth: githubToken,
