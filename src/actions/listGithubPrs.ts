@@ -42,7 +42,7 @@ const displayPrs = (
 	pulls: RestEndpointMethodTypes['pulls']['list']['response']['data']
 ) => {
 	const table = new Table({
-		head: [chalk.gray('title'), chalk.gray('url'), chalk.gray('start')],
+		head: [chalk.gray('title'), chalk.gray('url'), chalk.gray('status')],
 	});
 
 	pulls.forEach((pull) =>
