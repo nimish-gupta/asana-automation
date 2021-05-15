@@ -1,12 +1,15 @@
-const enquirer = require('enquirer');
+import enquirer from 'enquirer';
 
-const { debug } = require('./log');
-const { getTaskIdsFromUrls } = require('./utils/asana');
+import { debug } from './log';
+import { getTaskIdsFromUrls } from './utils/asana';
 
 const URL_SEPARATOR = ',';
 
 const promptTaskIdsAndGithubPR = async () => {
-	const { taskUrlsString, githubPRLink } = await enquirer.prompt([
+	const { taskUrlsString, githubPRLink } = await enquirer.prompt<{
+		taskUrlsString: string;
+		githubPRLink: string;
+	}>([
 		{
 			type: 'input',
 			name: 'taskUrlsString',
@@ -30,4 +33,4 @@ const promptTaskIdsAndGithubPR = async () => {
 	return { githubPRLink, taskIds };
 };
 
-module.exports = promptTaskIdsAndGithubPR;
+export default promptTaskIdsAndGithubPR;

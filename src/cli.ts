@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-const markAsanaTaskCompleted = require('./src/markAsanaTaskCompleted');
-const getAsanaTaskFromGithubPr = require('./src/getAsanaTaskFromGithubPr');
-const promptTaskIdsAndGithubPR = require('./src/promptTaskIdsAndGithubPR');
-const getTaskIdsForAsana = require('./src/getTaskIdsForAsana');
-const checkCredentialsPathExist = require('./src/checkCredentialsPathExist');
-const getAsanaToken = require('./src/getAsanaToken');
+import markAsanaTaskCompleted from './markAsanaTaskCompleted';
+import getAsanaTaskFromGithubPr from './getAsanaTaskFromGithubPr';
+import promptTaskIdsAndGithubPR from './promptTaskIdsAndGithubPR';
+import getTaskIdsForAsana from './getTaskIdsForAsana';
+import checkCredentialsPathExist from './checkCredentialsPathExist';
+import getAsanaToken from './getAsanaToken';
 
-const { info } = require('./src/log');
+import { info } from './log';
 
 const argv = require('minimist')(process.argv.slice(2));
 

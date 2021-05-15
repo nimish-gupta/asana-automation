@@ -1,7 +1,7 @@
-const { CREDENTIALS_TOKEN } = require('./constants');
-const { debug } = require('./log');
-const fetchAndSaveToken = require('./fetchAndSaveToken');
-const getToken = require('./getToken');
+import { CREDENTIALS_TOKEN } from './constants';
+import { debug } from './log';
+import fetchAndSaveToken from './fetchAndSaveToken';
+import getToken from './getToken';
 
 const getAsanaToken = async () => {
 	let asanaToken = getToken(CREDENTIALS_TOKEN);
@@ -20,4 +20,4 @@ const getAsanaToken = async () => {
 	return asanaToken;
 };
 
-module.exports = getAsanaToken;
+export default getAsanaToken;
