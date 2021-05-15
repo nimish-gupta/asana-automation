@@ -2,9 +2,11 @@
   "name": "asana-task",
   "version": "1.2.0",
   "description": "This will add a comment on the task and will mark it complete",
+  "main": "dist/cli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "./dist/cli.js"
   },
   "keywords": [
     "asana",
