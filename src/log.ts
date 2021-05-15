@@ -1,21 +1,15 @@
-function debug(...params) {
+export function debug(...params: unknown[]) {
 	if (process.env.DEBUG) {
 		const logData = params.join(' ');
 		console.log(`[debug] ${logData}`);
 	}
 }
 
-function info(...params) {
+export function info(...params: unknown[]) {
 	console.log(...params);
 }
 
-function error(...params) {
+export function error(...params: unknown[]) {
 	const logData = params.join(' ');
 	console.error(`[error] ${logData}`);
 }
-
-module.exports = {
-	debug,
-	info,
-	error,
-};

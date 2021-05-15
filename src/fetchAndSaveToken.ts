@@ -1,12 +1,12 @@
-const enquirer = require('enquirer');
-const fs = require('fs');
+import enquirer from 'enquirer';
+import fs from 'fs';
 
-const { debug } = require('./log');
-const { CREDENTIALS_PATH } = require('./constants');
+import { debug } from './log';
+import { CREDENTIALS_PATH } from './constants';
 
-const fetchAndSaveToken = async (token, label) => {
+const fetchAndSaveToken = async (token: string, label: string) => {
 	debug('Asking for the personal token from the user');
-	const userResponse = await enquirer.prompt({
+	const userResponse = await enquirer.prompt<Record<string, string>>({
 		type: 'input',
 		name: token,
 		message: `Please enter the personal token of your ${label} account`,
@@ -18,4 +18,4 @@ const fetchAndSaveToken = async (token, label) => {
 	return userResponse[token];
 };
 
-module.exports = fetchAndSaveToken;
+export default fetchAndSaveToken;

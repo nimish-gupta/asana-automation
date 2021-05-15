@@ -1,9 +1,9 @@
-const fs = require('fs');
+import fs from 'fs';
 
-const { CREDENTIALS_PATH, KEY_SEPARATOR } = require('./constants');
-const { debug } = require('./log');
+import { CREDENTIALS_PATH, KEY_SEPARATOR } from './constants';
+import { debug } from './log';
 
-const getToken = (token) => {
+const getToken = (token: string) => {
 	debug('Reading contents of the credentials file');
 	const credentialsFileContents = fs.readFileSync(CREDENTIALS_PATH).toString();
 	debug('Successfully read the contents of the file');
@@ -18,4 +18,4 @@ const getToken = (token) => {
 	return credentialLine.replace(token, '').replace(KEY_SEPARATOR, '');
 };
 
-module.exports = getToken;
+export default getToken;

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const { debug } = require('./log');
 const { CREDENTIALS_PATH } = require('./constants');
@@ -21,4 +21,4 @@ const checkCredentialsPathExist = () => {
 	}
 };
 
-module.exports = checkCredentialsPathExist;
+export default checkCredentialsPathExist;
