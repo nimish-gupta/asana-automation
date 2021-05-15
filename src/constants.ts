@@ -10,5 +10,5 @@ export const CREDENTIALS_PATH = path.join(
 	'.asana-task',
 	CREDENTIALS_FILE
 );
-export const CREDENTIALS_TOKEN = 'ASANA_PERSONAL_TOKEN';
+
 export const KEY_SEPARATOR = '=';
